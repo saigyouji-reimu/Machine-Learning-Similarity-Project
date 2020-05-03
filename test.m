@@ -5,13 +5,11 @@
 %                 mxitr: maximal iteration (default 20)
 %                 sigma: parameter in MMD (default 1)
 %                 scale: whether perform scaling regularization (defaule 1)
-DIST = zeros(10,1);
-for i=1:10
-Y = load("xxx.mat");
+
+load("Y.mat","Y");
 Y = double(Y);
-Z = load("xxx.mat");
+load("Z.mat","Z");
 Z = double(Z);
 opt.mxitr = 20;
-DIST(i) = OMMD(Y,Z,opt);
-end
-save("xxx.mat","DIST");
+DIST = OMMD(Y,Z,opt);
+save("DIST.mat","DIST");
