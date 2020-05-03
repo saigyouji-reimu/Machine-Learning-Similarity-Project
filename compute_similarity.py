@@ -8,6 +8,7 @@ from tensorflow.keras.datasets import cifar10
 import numpy as np
 from numpy.linalg import norm
 import matplotlib.pyplot as plt
+from scipy import os
 
 # parameters for computing the similarity
 num1 = 4          #the num of model1:0,1，… 9
@@ -189,13 +190,21 @@ def CKA(x,y):
     c = norm(y.transpose().dot(y))
     return (a*a) / (b*c)
 
+#matlab
+def OMMD(y, z):
+    io.savemat(r"Y.mat", {'data': y})
+    io.savemat(r"Z.mat", {'data': z})
+    os.system("matlab -nodesktop -nosplash -r test")
+    d = io.loadmat(r"D:\mlproj\Machine-Learning-Similarity-Project\DIST.mat")
+    return d['DIST'][0][0]
+
 #compute the similarity
 list_sim = []
 for i in range(layer_num):
     print("compute:", i)
     for j in range(layer_num):
         if i <= j:
-            list_sim.append(CKA(list_conv[i], list_conv[j+layer_num]))
+            list_sim.append(OMMD(list_conv[i], list_conv[j+layer_num]))
         else:
             list_sim.append(list_sim[layer_num*j+i])
 
