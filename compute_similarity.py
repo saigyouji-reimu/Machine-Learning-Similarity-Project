@@ -170,7 +170,10 @@ model2.summary()
 #compute each layer's output
 list_conv = []
 for i in range(layer_num):
-    s = layer_name + str(i)
+    if i != 0:
+        s = layer_name + str(i)
+    else:
+        s = layer_name
     temp = Model(inputs=model1.input, outputs=model1.get_layer(s).output).predict(x_test).reshape((10000,-1))
     temp_mean = np.sum(temp,axis=0)/10000
     temp = temp - temp_mean
@@ -195,7 +198,7 @@ def OMMD(y, z):
     io.savemat(r"Y.mat", {'data': y})
     io.savemat(r"Z.mat", {'data': z})
     os.system("matlab -nodesktop -nosplash -r test")
-    d = io.loadmat(r"D:\mlproj\Machine-Learning-Similarity-Project\DIST.mat")
+    d = io.loadmat(r"./DIST.mat")
     return d['DIST'][0][0]
 
 #compute the similarity
