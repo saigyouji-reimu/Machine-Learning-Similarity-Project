@@ -211,8 +211,12 @@ for i in range(layer_num):
         else:
             list_sim.append(list_sim[layer_num*j+i])
 
-#visualize
 list_sim = np.array(list_sim).reshape(layer_num,layer_num)
+
+np.save("sim.npy", list_sim)
+
+"""
+#visualize
 print(list_sim)
 plt.imshow(list_sim)
 plt.colorbar(shrink=.92)
@@ -220,3 +224,4 @@ plt.colorbar(shrink=.92)
 plt.xticks(np.arange(0,layer_num))
 plt.yticks(np.arange(0,layer_num))
 plt.show()
+"""
