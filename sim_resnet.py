@@ -1,7 +1,9 @@
 from __future__ import print_function
 import tensorflow as tf
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, BatchNormalization, Activation
-from tensorflow.keras.layers import AveragePooling2D, Input, Flatten
+from tensorflow.keras.layers import AveragePooling2D, Input, Flatten, Dropout
+from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.models import Model
 from tensorflow.keras.datasets import cifar10
