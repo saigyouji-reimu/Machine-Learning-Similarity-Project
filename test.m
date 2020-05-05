@@ -6,10 +6,11 @@
 %                 sigma: parameter in MMD (default 1)
 %                 scale: whether perform scaling regularization (defaule 1)
 
-Y = load("Y.mat");
+Y = load('Y.mat');
 Y = double(Y.data);
-Z = load("Z.mat");
+Z = load('Z.mat');
 Z = double(Z.data);
 opt.mxitr = 20;
 DIST = OMMD(Y,Z,opt);
-save("DIST.mat","DIST");
+save('DIST.mat','DIST');
+quit();
