@@ -17,17 +17,12 @@ import os
 from scipy import io
 
 # parameters for computing the similarity
-if_relu = 0       #if get through the relu activation
 layer_num = 13
-
-if if_relu:
-    layer_name = 'activation_'
-else:
-    layer_name = 'conv2d_'
+layer_name = 'conv2d_'
 # end parameters
 
 class cifar10vgg:
-    def __init__(self,train=True):
+    def __init__(self, train=True, model_path=None):
         self.num_classes = 10
         self.weight_decay = 0.0005
         self.x_shape = [32,32,3]
@@ -36,7 +31,7 @@ class cifar10vgg:
         if train:
             self.model = self.train(self.model)
         else:
-            self.model.load_weights('cifar10vgg.h5')
+            self.model.load_weights(model_path)
 
 
     def build_model(self):
@@ -213,11 +208,19 @@ class cifar10vgg:
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
+
+mean = np.mean(x_train,axis=(0,1,2,3))
+std = np.std(x_train, axis=(0, 1, 2, 3))
+#X_train = (X_train-mean)/(std+1e-7)
+x_test = (x_test-mean)/(std+1e-7)
+
 y_train = tf.keras.utils.to_categorical(y_train, 10)
 y_test = tf.keras.utils.to_categorical(y_test, 10)
 
-model1 = cifar10vgg(train=False).model
+model1 = cifar10vgg(train=False, model_path='cifar10vgg_0.h5').model
 model1.summary()
+model2 = cifar10vgg(train=False, model_path='cifar10vgg_1.h5').model
+model2.summary()
 
 #compute each layer's output
 list_conv = []
@@ -230,6 +233,13 @@ for i in range(layer_num-all,layer_num):
 
     temp = Model(inputs=model1.input, outputs=model1.get_layer(s).output).predict(x_test).reshape((10000, -1))
     temp_mean = np.sum(temp, axis=0)/10000
+    temp = temp - temp_mean
+    list_conv.append(temp)
+
+for i in range(layer_num-all,layer_num):
+    s = layer_name + str(i+layer_num)
+    temp = Model(inputs=model2.input, outputs=model2.get_layer(s).output).predict(x_test).reshape((10000,-1))
+    temp_mean = np.sum(temp,axis=0)/10000
     temp = temp - temp_mean
     list_conv.append(temp)
 
@@ -256,7 +266,7 @@ for i in range(all):
     print("compute:", i)
     for j in range(all):
         if i <= j:
-            list_sim.append(CKA(list_conv[i], list_conv[j]))
+            list_sim.append(CKA(list_conv[i], list_conv[j+all]))
         else:
             list_sim.append(list_sim[all*j+i])
 
@@ -264,7 +274,7 @@ for i in range(all):
 list_sim = np.array(list_sim).reshape(all,all)
 print(list_sim)
 #np.save("sim.npy",list_sim)
-plt.imshow(list_sim)
+plt.imshow(list_sim, cmap='hot')
 plt.colorbar(shrink=.92)
 
 plt.xticks(np.arange(0,all))
