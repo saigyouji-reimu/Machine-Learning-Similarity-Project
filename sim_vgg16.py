@@ -224,7 +224,7 @@ model2.summary()
 
 #compute each layer's output
 list_conv = []
-all = 4
+all = 7
 for i in range(layer_num-all,layer_num):
     if i!=0:
         s = layer_name + str(i)
@@ -234,20 +234,20 @@ for i in range(layer_num-all,layer_num):
     temp = Model(inputs=model1.input, outputs=model1.get_layer(s).output).predict(x_test).reshape((10000, -1))
     temp_mean = np.sum(temp, axis=0)/10000
     temp = temp - temp_mean
-    list_conv.append(temp)
+    list_conv.append(temp.transpose())
 
 for i in range(layer_num-all,layer_num):
     s = layer_name + str(i+layer_num)
     temp = Model(inputs=model2.input, outputs=model2.get_layer(s).output).predict(x_test).reshape((10000,-1))
     temp_mean = np.sum(temp,axis=0)/10000
     temp = temp - temp_mean
-    list_conv.append(temp)
+    list_conv.append(temp.transpose())
 
 #the linear CKA
 def CKA(x,y):
-    a = norm(y.transpose().dot(x))
-    b = norm(x.transpose().dot(x))
-    c = norm(y.transpose().dot(y))
+    a = norm(y.dot(x.transpose()))
+    b = norm(x.dot(x.transpose()))
+    c = norm(y.dot(y.transpose()))
     return (a*a) / (b*c)
 
 #matlab
@@ -273,7 +273,7 @@ for i in range(all):
 #visualize
 list_sim = np.array(list_sim).reshape(all,all)
 print(list_sim)
-#np.save("sim.npy",list_sim)
+np.save("sim.npy",list_sim)
 plt.imshow(list_sim, cmap='hot')
 plt.colorbar(shrink=.92)
 
