@@ -1,0 +1,103 @@
+33,34c33,34
+<         else:
+<             self.model.load_weights(model_path)
+---
+>         #else:
+>             #self.model.load_weights(model_path)
+43,44c43,44
+<         model.add(Conv2D(64, (3, 3), padding='same',
+<                          input_shape=self.x_shape,kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(64, (3, 3), padding='same',input_shape=self.x_shape,
+>                          kernel_initializer=tf.keras.initializers.RandomNormal(),kernel_regularizer=regularizers.l2(weight_decay)))
+49c49,50
+<         model.add(Conv2D(64, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(64, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+55c56,57
+<         model.add(Conv2D(128, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(128, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+60c62,63
+<         model.add(Conv2D(128, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(128, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+66c69,70
+<         model.add(Conv2D(256, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(256, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+71c75,76
+<         model.add(Conv2D(256, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(256, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+76c81,82
+<         model.add(Conv2D(256, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(256, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+83c89,90
+<         model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(512, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+88c95,96
+<         model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(512, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+93c101,102
+<         model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(512, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+100c109,110
+<         model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(512, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+105c115,116
+<         model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(512, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+110c121,122
+<         model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Conv2D(512, (3, 3), padding='same',kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                          kernel_regularizer=regularizers.l2(weight_decay)))
+118c130,131
+<         model.add(Dense(512,kernel_regularizer=regularizers.l2(weight_decay)))
+---
+>         model.add(Dense(512,kernel_initializer=tf.keras.initializers.RandomNormal(),
+>                         kernel_regularizer=regularizers.l2(weight_decay)))
+228d240
+< print(layer_num)
+238,239c250
+<     temp = temp.transpose()
+<     list_conv.append(temp)
+---
+>     list_conv.append(temp.transpose())
+246,247c257
+<     temp = temp.transpose()
+<     list_conv.append(temp)
+---
+>     list_conv.append(temp.transpose())
+251,253c261,263
+<     a = norm(y.transpose().dot(x))
+<     b = norm(x.transpose().dot(x))
+<     c = norm(y.transpose().dot(y))
+---
+>     a = norm(y.dot(x.transpose()))
+>     b = norm(x.dot(x.transpose()))
+>     c = norm(y.dot(y.transpose()))
+273d282
+< 
+277c286
+< np.save("sim_vgg16_all.npy",list_sim)
+---
+> np.save("sim_vgg16untrain.npy",list_sim)
